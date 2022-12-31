@@ -1,0 +1,33 @@
+.wrapper {
+    margin: 20px 0;
+    border-top: 1px solid rgb(199, 199, 199);
+    border-bottom: 1px solid rgb(199, 199, 199);
+    padding: 20px 0;
+}
+
+.label {
+    display: block;
+    background-color: rgb(33,37,41);
+    color:white;
+    padding: 5px 10px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition-duration: 0.1s;
+}
+
+.label > span {
+    margin-left: 10px;
+}
+
+.label:hover {
+    background-color: #424649;
+}
+
+.btn {
+    display: block !important;
+    margin-left: auto;
+}
+
+.title {
+    margin-top: 10px;
+}

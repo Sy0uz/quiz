@@ -9,7 +9,7 @@ const Quizes = () => {
 
     return (
         <Container style={{ border: "1px solid rgb(180, 180, 180)"}} className="my-2 p-2 bg-white">
-            {store ? store.quizes.map(quiz => <QuizHeader key={quiz.id} quiz={quiz}/>) : <Spinner animation='border'/>}
+            {store ? store.map(quiz => <QuizHeader key={quiz.id} quiz={quiz}/>) : <Spinner animation='border'/>}
         </Container>
     )
 }

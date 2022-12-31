@@ -3,7 +3,7 @@ import AppRouter from './components/AppRouter';
 import { AppContext } from './Context/AppContext';
 import { Store } from './Store/Store';
 import './styles/App.css'
-import MyNavbar from './UI/MyNavbar';
+import MyNavbar from './UI/Navbar/MyNavbar';
 
 function App() {
     

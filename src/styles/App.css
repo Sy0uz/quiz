@@ -2,12 +2,13 @@ body {
     background-color: rgb(236, 236, 236) !important;
 }
 
-.link_btn {
-    text-decoration: none;
-    color:white;
-    margin: 0 10px;
+.quiz_result {
+    font-size: 1.5rem;
 }
 
-.link_btn:hover {
-    color:rgb(221, 221, 221);
+.quizBody {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
