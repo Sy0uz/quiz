@@ -21,7 +21,7 @@ const RadioQ = ({question, nextQuestion}) => {
                 <span>Выберите один ответ</span>
                 {
                     question.variants.map((variant, idx) => {
-                        return <label className={s.label} key={variant}>
+                        return <label className={s.label} key={variant.id}>
                             <Form.Check
                                 style={{display:'inline'}}
                                 type="radio"

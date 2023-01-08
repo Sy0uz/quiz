@@ -7,7 +7,7 @@ const QuizHeader = ({quiz}) => {
     const redirect = useNavigate();
 
     return (
-        <Card border='dark' className="m-2" bg="light" text="dark">
+        <Card border='dark' className="my-2" bg="light" text="dark">
             <div style={{background:`url(${quiz.img}) no-repeat center`, height:'200px', borderRadius:'0.375rem 0.375rem 0 0'}}></div>
             <Card.Body>
                 <Card.Title>

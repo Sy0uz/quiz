@@ -29,7 +29,7 @@ const QuizResult = ({result, questions, title}) => {
                     title={`Ваш результат: ${total}`}
                     align='end'
                 >
-                    {questions.map(item => <DropdownItem>{item.title}</DropdownItem>)}
+                    {questions.map(item => <DropdownItem key={item.id}>{item.title}</DropdownItem>)}
                 </SplitButton>
             </div>
         </div>

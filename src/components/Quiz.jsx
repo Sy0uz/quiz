@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../Context/AppContext';
-import { Container, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import QuizBody from './QuizBody';
+import Wrapper from './Wrapper';
 
 const Quiz = () => {
     const params = useParams();
@@ -14,7 +15,7 @@ const Quiz = () => {
 
     useEffect(() => {
         if (store) {
-            setLocalQuiz(...store.filter(quiz => quiz.id === params.id));
+            setLocalQuiz(...store.filter(quiz => quiz.id == params.id));
             setIsLoad(true);
         }
     }, [store])
@@ -27,7 +28,7 @@ const Quiz = () => {
 
     return (
         <div>
-            <Container style={{ border: "1px solid rgb(180, 180, 180)" }} className="my-2 p-2 bg-white">
+            <Wrapper>
                 {
                     isLoad
                     ?
@@ -38,9 +39,8 @@ const Quiz = () => {
                             <h1>Теста с id: {params.id} не существует!</h1>
                     : 
                         <Spinner animation='border'/>
-                }
-                
-            </Container>
+                }                
+            </Wrapper>
         </div>
     )
 }

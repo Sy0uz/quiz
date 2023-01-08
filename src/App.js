@@ -9,13 +9,17 @@ function App() {
     
     const [store, setStore] = useState(null);
 
+    window.store = store;
+
     useEffect(() => {
         setStore(Store)
     }, [])
+    
 
     return (
         <AppContext.Provider value={{
-            store: store,
+            store,
+            setStore,
         }}>
             <div className="App">
                 <MyNavbar />
