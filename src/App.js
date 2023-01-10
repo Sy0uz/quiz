@@ -8,6 +8,7 @@ import MyNavbar from './UI/Navbar/MyNavbar';
 function App() {
     
     const [store, setStore] = useState(null);
+    const [isAuth, setIsAuth] = useState(false);
 
     window.store = store;
 
@@ -20,6 +21,8 @@ function App() {
         <AppContext.Provider value={{
             store,
             setStore,
+            isAuth,
+            setIsAuth,
         }}>
             <div className="App">
                 <MyNavbar />

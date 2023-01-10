@@ -57,7 +57,7 @@ const QuizCreator = () => {
 
                 {questions.map(item => <CreateQ unsaveQ={unsaveQ} saveQ={saveQ} removeQ={removeQ} id={item.id} key={item.id}/>)}
                 <div className='d-flex justify-content-between mt-2'>
-                    <Button variant='dark' onClick={createTest}>Создать тест</Button>
+                    <Button variant='dark' disabled={!questions.length} onClick={createTest}>Создать тест</Button>
                     <Button variant='outline-dark' onClick={addQ}>Добавить вопрос</Button>
                 </div>
                 
