@@ -11,7 +11,7 @@ const Quiz = () => {
     const [localQuiz, setLocalQuiz] = useState(null);
 
     const fetchData = async (id) => {
-        const response = await axios.get('http://localhost:8000/api/quiz/' + id);
+        const response = await axios.get(`http://localhost:8000/api/quiz/${id}/`);
         setLocalQuiz(response.data);
     }
 

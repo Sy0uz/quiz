@@ -12,12 +12,12 @@ function App() {
     const [isAuth, setIsAuth] = useState(false);
 
     const fetchData = async () => {
-        const response = await axios.get('http://localhost:8000/api/quiz')
+        const response = await axios.get('http://localhost:8000/api/quiz/')
         setStore(response.data)
     }
 
     const fetchByToken = async (token) => {
-        const response = await axios.get('http://localhost:8000/api/auth/users', {
+        const response = await axios.get('http://localhost:8000/api/auth/users/', {
             headers: {
                 token: token
             }

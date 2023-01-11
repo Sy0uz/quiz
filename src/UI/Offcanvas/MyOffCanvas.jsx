@@ -27,9 +27,9 @@ const MyOffCanvas = ({show, handleClose}) => {
         const reg = new FormData();
         reg.append('username', registration.login)
         reg.append('password', registration.password)
-        const response = await axios.post('http://localhost:8000/api/auth/users', reg)
+        const response = await axios.post('http://localhost:8000/api/auth/users/', reg)
         if (Object.keys(response.data).includes('id')){
-            const authentication = await axios.post('http://localhost:8000/api/auth/token/login', reg)
+            const authentication = await axios.post('http://localhost:8000/api/auth/token/login/', reg)
             localStorage.setItem('token', authentication.data.auth_token)
         }
         handleClose()
@@ -40,7 +40,7 @@ const MyOffCanvas = ({show, handleClose}) => {
         const log = new FormData();
         log.append('username', login.login)
         log.append('password', login.password)
-        const response = await axios.post('http://localhost:8000/api/auth/token/login', log)
+        const response = await axios.post('http://localhost:8000/api/auth/token/login/', log)
         if (Object.keys(response.data).includes('non_field_errors')){
             console.log(response.data.non_field_errors)
             return;

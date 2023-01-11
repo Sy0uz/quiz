@@ -18,7 +18,7 @@ const QuizCreator = () => {
         test.append('image_url', image)
         test.append('questions', questions)
 
-        await axios.post('http://localhost:8000/api/quiz', test)
+        await axios.post('http://localhost:8000/api/quiz/', test)
         finish('/quiz')
     }
 
