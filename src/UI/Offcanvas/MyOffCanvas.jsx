@@ -1,11 +1,14 @@
+import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { Button, Offcanvas, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../../Context/AppContext'
 import MyModal from '../MyModal/MyModal'
 
 const MyOffCanvas = ({show, handleClose}) => {
 
     const {setIsAuth} = useContext(AppContext);
+    const navigate = useNavigate();
 
     const [enterVisible, setEnterVisible] = useState(false);
     const [regVisible, setRegVisible] = useState(false);
@@ -20,14 +23,31 @@ const MyOffCanvas = ({show, handleClose}) => {
         password:'',
     })
 
-    const onRegistration = () => {
-        setIsAuth(true)
+    const onRegistration = async () => {
+        const reg = new FormData();
+        reg.append('username', registration.login)
+        reg.append('password', registration.password)
+        const response = await axios.post('http://localhost:8000/api/auth/users', reg)
+        if (Object.keys(response.data).includes('id')){
+            const authentication = await axios.post('http://localhost:8000/api/auth/token/login', reg)
+            localStorage.setItem('token', authentication.data.auth_token)
+        }
         handleClose()
+        navigate('/')
     }
 
-    const onLogin = () => {
-        setIsAuth(true)
+    const onLogin = async () => {
+        const log = new FormData();
+        log.append('username', login.login)
+        log.append('password', login.password)
+        const response = await axios.post('http://localhost:8000/api/auth/token/login', log)
+        if (Object.keys(response.data).includes('non_field_errors')){
+            console.log(response.data.non_field_errors)
+            return;
+        }
+        localStorage.setItem('token', response.data.auth_token)
         handleClose()
+        navigate('/')
     }
 
     const showModalEnter = () => {

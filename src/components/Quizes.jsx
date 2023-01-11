@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Button, Spinner } from 'react-bootstrap'
+import React, { useContext, useEffect } from 'react'
+import { Alert, Button, Spinner } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/AppContext'
 import QuizHeader from './QuizHeader';
@@ -7,15 +7,25 @@ import Wrapper from './Wrapper';
 
 const Quizes = () => {
 
-    const {store} = useContext(AppContext);
+    const {store, fetch, isLoading} = useContext(AppContext);
     const redirect = useNavigate();
 
-    return (
-        <Wrapper>
-            <Button variant='dark' onClick={() => redirect('/quiz/creator')}>Создать свой тест</Button>
+    useEffect(() => {
+        fetch();
+    }, [])
 
-            {store ? store.map(quiz => <QuizHeader key={quiz.id} quiz={quiz}/>) : <Spinner animation='border'/>}            
-        </Wrapper>
+    return (
+        isLoading
+            ? <Wrapper className='d-flex justify-content-center'>
+                <Spinner animation='border' />
+            </Wrapper>
+            : <Wrapper>
+                <Button variant='dark' onClick={() => redirect('/quiz/creator')}>Создать свой тест</Button>
+                {store
+                    ? store.map(quiz => <QuizHeader key={quiz.id} quiz={quiz} />)
+                    : <Alert className='mt-2 mb-0' variant='dark'>Список тестов пуст!</Alert>
+                }
+            </Wrapper>
     )
 }
 

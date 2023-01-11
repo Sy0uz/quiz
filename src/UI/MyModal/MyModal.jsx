@@ -5,6 +5,10 @@ const MyModal = ({show, setShow, title, apply, onApply, children}) => {
 
     const handleClose = () => {
         setShow(false);
+    }
+
+    const sumbit = () => {
+        setShow(false);
         onApply();
     }
 
@@ -18,7 +22,7 @@ const MyModal = ({show, setShow, title, apply, onApply, children}) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Закрыть
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={sumbit}>
                     {apply}
                 </Button>
             </Modal.Footer>

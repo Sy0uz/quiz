@@ -1,44 +1,39 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { AppContext } from '../Context/AppContext';
 import { Spinner } from 'react-bootstrap';
 import QuizBody from './QuizBody';
 import Wrapper from './Wrapper';
+import axios from 'axios';
+import useFetching from '../hooks/useFetching';
 
 const Quiz = () => {
     const params = useParams();
     const [localQuiz, setLocalQuiz] = useState(null);
-    const [isLoad, setIsLoad] = useState(false);
-    const [isExist, setIsExist] = useState(false);
 
-    const {store} = useContext(AppContext);
+    const fetchData = async (id) => {
+        const response = await axios.get('http://localhost:8000/api/quiz/' + id);
+        setLocalQuiz(response.data);
+    }
 
-    useEffect(() => {
-        if (store) {
-            setLocalQuiz(...store.filter(quiz => quiz.id == params.id));
-            setIsLoad(true);
-        }
-    }, [store])
+    const [fetch, isLoading, error] = useFetching(fetchData);
 
     useEffect(() => {
-        if (localQuiz) {
-            setIsExist(true);
-        }
-    }, [localQuiz])
+        fetch(params.id);
+    }, [])
 
     return (
         <div>
             <Wrapper>
                 {
-                    isLoad
+                    isLoading
                     ?
-                        isExist
+                        <div className='d-flex justify-content-center'><Spinner animation='border'/></div>
+                    : 
+                        !error
                             ?
-                            <QuizBody quiz={localQuiz}/>
+                            localQuiz && <QuizBody quiz={localQuiz} />
                             :
                             <h1>Теста с id: {params.id} не существует!</h1>
-                    : 
-                        <Spinner animation='border'/>
                 }                
             </Wrapper>
         </div>
