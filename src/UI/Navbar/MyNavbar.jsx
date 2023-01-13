@@ -2,39 +2,62 @@ import React, {useContext, useState} from 'react'
 import { Container, Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import s from './MyNavbar.module.css'
-import MyOffCanvas from '../Offcanvas/MyOffCanvas'
 import { AppContext } from '../../Context/AppContext'
+import { useNavigate } from 'react-router-dom'
+import Authorization from '../../components/authorization/Authorization'
 
 const MyNavbar = () => {
 
-    const {isAuth} = useContext(AppContext);
+    const {isAuth, setIsAuth} = useContext(AppContext);
 
-    const [show, setShow] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
+    const [authType, setAuthType] = useState('');
 
-    const handleClose = () => {
-        setShow(false);
+    const history = useNavigate();
+
+    const loginHandler = () => {
+        setAuthType('login')
+        setModalShow(true);
     }
 
-    const handleShow = () => {
-        setShow(true);
+    const registrationHandler = () => {
+        setAuthType('registration')
+        setModalShow(true);
     }
+
+    const exitHandler = () => {
+        setIsAuth(false);
+        localStorage.removeItem('token');
+    }
+
 
     return (
         <Navbar bg='dark' variant='dark' expand='lg'>
             <Container>
-                <Navbar.Brand><Link to={'/'} className={s.header}>Syouz's Quiz</Link></Navbar.Brand>
+                <div className='d-flex'>
+                    <Navbar.Brand><Link to={'/'} className={s.header}>Syouz's Quiz</Link></Navbar.Brand>
 
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1">
-                        <Nav.Item><Link to={'/'} className={s.btn}><Button variant='outline-light'>Home</Button></Link></Nav.Item>
-                        <Nav.Item><Link to={'/quiz'} className={s.btn}><Button variant='outline-light'>Quizes</Button></Link></Nav.Item>
-                        {!isAuth ? <Nav.Item><Button variant='light' onClick={handleShow}>Авторизация</Button></Nav.Item> : <></>}
-                    </Nav>
-                </Navbar.Collapse>
+                    <Nav className='align-items-center'>
+                        <Nav.Link onClick={() => {history('/')}}>Home</Nav.Link>
+                        <Nav.Link onClick={() => {history('/quiz')}}>Quizes</Nav.Link>
+                    </Nav>                    
+                </div>
+
+                {
+                    !isAuth
+                    ? 
+                        <div>
+                            <Button variant='outline-light' className={s.btn} onClick={loginHandler}>Войти</Button>
+                            <Button variant='light' className={s.btn} onClick={registrationHandler}>Регистрация</Button>
+                        </div>
+                    :
+                        <div>
+                            <Button variant='outline-light' className={s.btn} onClick={exitHandler}>Выйти</Button>
+                        </div>
+                }
             </Container>
 
-            <MyOffCanvas show={show} handleClose={handleClose}/>
+            <Authorization show={modalShow} setShow={setModalShow} type={authType}/>
         </Navbar>
     )
 }

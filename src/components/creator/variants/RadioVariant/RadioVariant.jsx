@@ -31,7 +31,7 @@ const RadioVariant = ({id, setQCorrect, setQVariants}) => {
     return (
         <div className='d-flex flex-column'>
             {variants.map(item => <RadioInput key={item.index} id={item.id} index={item.index} qValue={qValue} setQValue={setQValue} checked={setChecked} setChecked={setChecked} deleteVariant={deleteVariant}/>)}
-            <Button onClick={addVariant} variant='outline-dark' className='align-self-end'>Добавить</Button>
+            <Button onClick={addVariant} variant='outline-dark' className='align-self-start mt-2'>Добавить</Button>
         </div>
     )
 }

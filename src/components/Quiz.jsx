@@ -3,15 +3,15 @@ import { useParams } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap';
 import QuizBody from './QuizBody';
 import Wrapper from './Wrapper';
-import axios from 'axios';
 import useFetching from '../hooks/useFetching';
+import { PostService } from '../API/PostService';
 
 const Quiz = () => {
     const params = useParams();
     const [localQuiz, setLocalQuiz] = useState(null);
 
     const fetchData = async (id) => {
-        const response = await axios.get(`http://localhost:8000/api/quiz/${id}/`);
+        const response = await PostService.getQuiz(id);
         setLocalQuiz(response.data);
     }
 

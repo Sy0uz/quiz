@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { PostService } from './API/PostService';
 import AppRouter from './components/AppRouter';
 import { AppContext } from './Context/AppContext';
 import useFetching from './hooks/useFetching';
@@ -12,29 +12,22 @@ function App() {
     const [isAuth, setIsAuth] = useState(false);
 
     const fetchData = async () => {
-        const response = await axios.get('http://localhost:8000/api/quiz/')
+        const response = await PostService.getQuizList();
         setStore(response.data)
     }
 
-    const fetchByToken = async (token) => {
-        const response = await axios.get('http://localhost:8000/api/auth/users/', {
-            headers: {
-                token: token
-            }
-        })
-        if (!Object.keys(response.data).includes('details')) {
-            setUser(response.data.results[0]);
-            setIsAuth(true);
-        }
+    const checkUserByToken = async () => {
+        const [user, auth] = await PostService.checkUserAuth();
+        setUser(user);
+        setIsAuth(auth);
     }
 
     const [fetch, isLoading, error] = useFetching(fetchData);
-    const [fetchUser, isLoadUser, userError] = useFetching(fetchByToken);
+    const [fetchUser, isLoadUser, userError] = useFetching(checkUserByToken);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            fetchUser(localStorage.getItem('token'))
-            console.log(user);
+            fetchUser();
         }
     }, [])
 
@@ -46,6 +39,7 @@ function App() {
             error,
             isAuth,
             setIsAuth,
+            user,
         }}>
             <div className="App">
                 <MyNavbar />

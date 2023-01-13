@@ -24,6 +24,11 @@
     background-color: rgba(0,0,0,0.2);
 }
 
+.save {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .chooseQ {
     color:rgb(102, 102, 102);
     font-size: 0.8rem;
@@ -32,6 +37,10 @@
 
 .active > button {
     position: absolute;
-    right: 10px;
+    right: 15px;
     bottom: 10px;
+}
+
+.control {
+    width: 100px;
 }

@@ -37,7 +37,7 @@ const CheckVariant = ({id, setQCorrect, setQVariants}) => {
     return (
         <div className='d-flex flex-column'>
             {variants.map(item => <CheckInput key={item.index} id={item.id} index={item.index} qValue={qValue} setQValue={setQValue} deleteVariant={deleteVariant} correct={correct} setCorrect={setCorrect} />)}
-            <Button onClick={addVariant} variant='outline-dark' className='align-self-end'>Добавить</Button>
+            <Button onClick={addVariant} variant='outline-dark' className='align-self-start mt-2'>Добавить</Button>
         </div>
     )
 }

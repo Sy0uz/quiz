@@ -22,7 +22,7 @@ const CheckQ = ({question, nextQuestion}) => {
                 <span>Выберите один/несколько ответов.</span>
                 {
                     question.variants.map((variant, idx) => {
-                        return <label className={s.label} key={variant.id}>
+                        return <label className={s.label} key={idx}>
                             <Form.Check
                                 style={{display:'inline'}}
                                 type="checkbox"

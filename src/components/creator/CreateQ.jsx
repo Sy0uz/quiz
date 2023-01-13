@@ -63,18 +63,22 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
 
             {
                 qType
-                ? <VariantsQ type={qType} id={id} setQCorrect={setQCorrect} setQVariants={setQVariants}/>
-                : <div className={s.chooseQ}>Выберите тип вопроса</div>
+                    ? <VariantsQ type={qType} id={id} setQCorrect={setQCorrect} setQVariants={setQVariants} />
+                    : <div className={s.chooseQ}>Выберите тип вопроса</div>
             }
 
-            <Button size='sm' variant='dark' onClick={saveNewQ}>Сохранить</Button>
+            <CloseButton onClick={() => { removeQ(id) }} className={s.close} />
 
-            <CloseButton onClick={() => {removeQ(id)}} className={s.close}/>
-            {disabled
-                ? <div className={s.active}>
-                    <Button size='sm' variant='dark' onClick={rejectSave}>Отмена</Button>
-                </div>
-                : <></>
+            <div className={s.save}>
+                <Button className={s.control} size='sm' variant='dark' onClick={saveNewQ}>Сохранить</Button>
+            </div>
+
+            {
+                disabled
+                    ? <div className={s.active}>
+                        <Button className={s.control} size='sm' variant='dark' onClick={rejectSave}>Отмена</Button>
+                    </div>
+                    : <></>
             }
         </div>
     )
