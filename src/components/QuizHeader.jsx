@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import s from './../styles/QuizHeader.module.css'
 
 const QuizHeader = ({quiz}) => {
 
@@ -8,7 +9,10 @@ const QuizHeader = ({quiz}) => {
 
     return (
         <Card border='dark' className="my-2" bg="light" text="dark">
-            <div style={{background:`url(${quiz.img}) no-repeat center`, height:'200px', borderRadius:'0.375rem 0.375rem 0 0'}}></div>
+            <div className={s.imageBox}>
+                <img className={s.quizImage} src={quiz.image_url} alt={`${quiz.id}quiz`} />
+            </div>
+            
             <Card.Body>
                 <Card.Title>
                     {quiz.title}

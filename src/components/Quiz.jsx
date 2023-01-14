@@ -12,7 +12,7 @@ const Quiz = () => {
 
     const fetchData = async (id) => {
         const response = await PostService.getQuiz(id);
-        setLocalQuiz(response.data);
+        setLocalQuiz(response);
     }
 
     const [fetch, isLoading, error] = useFetching(fetchData);

@@ -1,0 +1,25 @@
+.boxPic {
+    position: relative;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+}
+
+.profilePic {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.username {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.userInfo {
+    margin-left: 20px;
+}

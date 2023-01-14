@@ -5,6 +5,7 @@ import s from './MyNavbar.module.css'
 import { AppContext } from '../../Context/AppContext'
 import { useNavigate } from 'react-router-dom'
 import Authorization from '../../components/authorization/Authorization'
+import { PostService } from '../../API/PostService'
 
 const MyNavbar = () => {
 
@@ -25,9 +26,9 @@ const MyNavbar = () => {
         setModalShow(true);
     }
 
-    const exitHandler = () => {
+    const exitHandler = async () => {
+        await PostService.logoutUser();
         setIsAuth(false);
-        localStorage.removeItem('token');
     }
 
 
@@ -35,11 +36,11 @@ const MyNavbar = () => {
         <Navbar bg='dark' variant='dark' expand='lg'>
             <Container>
                 <div className='d-flex'>
-                    <Navbar.Brand><Link to={'/'} className={s.header}>Syouz's Quiz</Link></Navbar.Brand>
+                    <Navbar.Brand><Link to={'/quiz'} className={s.header}>Syouz's Quiz</Link></Navbar.Brand>
 
                     <Nav className='align-items-center'>
-                        <Nav.Link onClick={() => {history('/')}}>Home</Nav.Link>
-                        <Nav.Link onClick={() => {history('/quiz')}}>Quizes</Nav.Link>
+                        <Nav.Link onClick={() => {history('/users')}}>Пользователи</Nav.Link>
+                        <Nav.Link onClick={() => {history('/quiz')}}>Опросы</Nav.Link>
                     </Nav>                    
                 </div>
 

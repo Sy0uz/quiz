@@ -20,7 +20,7 @@ const Registration = ({show, setShow}) => {
         reg.append('username', registration.login)
         reg.append('password', registration.password)
         const response = await PostService.registerUser(reg);
-        if (Object.keys(response.data).includes('id')){
+        if (Object.keys(response).includes('id')){
             PostService.loginUser(reg);
             setIsAuth(true)
         }

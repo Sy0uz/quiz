@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import { Button, FloatingLabel, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +18,7 @@ const QuizCreator = () => {
         test.append('image_url', image)
         test.append('questions', JSON.stringify(questions))
 
-        PostService.addPost(test);
+        await PostService.addPost(test);
 
         finish('/quiz')
     }
@@ -29,7 +28,7 @@ const QuizCreator = () => {
     }
 
     const addQ = () => {
-        let question = {id:questions.length+1}
+        let question = {id:Date.now()}
         setQuestions([...questions, question])
     }
 

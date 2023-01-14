@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
 import { PostService } from './API/PostService';
 import AppRouter from './components/AppRouter';
+import Wrapper from './components/Wrapper';
 import { AppContext } from './Context/AppContext';
 import useFetching from './hooks/useFetching';
 import './styles/App.css'
 import MyNavbar from './UI/Navbar/MyNavbar';
+import { Spinner } from 'react-bootstrap';
 
 function App() {
-    const [store, setStore] = useState(null);
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
-
-    const fetchData = async () => {
-        const response = await PostService.getQuizList();
-        setStore(response.data)
-    }
 
     const checkUserByToken = async () => {
         const [user, auth] = await PostService.checkUserAuth();
@@ -22,8 +18,7 @@ function App() {
         setIsAuth(auth);
     }
 
-    const [fetch, isLoading, error] = useFetching(fetchData);
-    const [fetchUser, isLoadUser, userError] = useFetching(checkUserByToken);
+    const [fetchUser, isLoadUser] = useFetching(checkUserByToken);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -31,12 +26,14 @@ function App() {
         }
     }, [])
 
+    if (isLoadUser) {
+        return <Wrapper className='d-flex justify-content-center'>
+            <Spinner animation='border' />
+        </Wrapper>
+    }
+
     return (
         <AppContext.Provider value={{
-            store,
-            fetch,
-            isLoading,
-            error,
             isAuth,
             setIsAuth,
             user,

@@ -14,6 +14,7 @@ const AppRouter = () => {
                 {routerPrivate.map(route => {
                     return <Route key={route.path} path={route.path} element={route.element}/>
                 })}
+                <Route path='/' element={<Navigate to="/quiz" replace/>}/>
                 <Route path='/*' element={<Navigate to="/error" replace/>}/>
             </Routes>
             :
@@ -21,6 +22,7 @@ const AppRouter = () => {
                 {routerPublic.map(route => {
                     return <Route key={route.path} path={route.path} element={route.element}/>
                 })}
+                <Route path='/' element={<Navigate to="/quiz" replace/>}/>
                 <Route path='/*' element={<Navigate to="/error" replace/>}/>
             </Routes>
 
