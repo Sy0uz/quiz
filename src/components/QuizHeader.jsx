@@ -3,14 +3,19 @@ import { Button, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import s from './../styles/QuizHeader.module.css'
 
-const QuizHeader = ({quiz}) => {
+const QuizHeader = ({quiz, type = 'big'}) => {
 
     const redirect = useNavigate();
 
     return (
-        <Card border='dark' className="my-2" bg="light" text="dark">
+        <Card border='dark' className="my-2" bg="light" text="dark" >
             <div className={s.imageBox}>
-                <img className={s.quizImage} src={quiz.image_url} alt={`${quiz.id}quiz`} />
+                {
+                    quiz.quiz_img_url
+                    ? <img className={s.quizImage} src={ type === 'small' ? `http://127.0.0.1:8000/${quiz.quiz_img_url}` : quiz.quiz_img_url} alt={`${quiz.id}quiz`} />
+                    : <div className={s.back}></div>
+                }
+                
             </div>
             
             <Card.Body>

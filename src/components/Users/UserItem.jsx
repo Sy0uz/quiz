@@ -1,23 +1,21 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import s from './../../styles/UserItem.module.css'
+import { Link } from 'react-router-dom';
 
 const UserItem = ({user}) => {
-
-    const route = useNavigate();
+    
+    const dateJoined = new Date(user.date_joined).toLocaleDateString();
 
     return (
-        <div className={s.wrapper} onClick={() => route(`${user.id}`)}>
-            <div className={s.user}>
-                <span className={s.userName}>{user.username}</span>
-                <span className={s.regTime}>Дата регистрации: {user.date_joined.toLocaleDateString()}</span>
-            </div>
+        <Link className={s.link} to={`/users/${user.id}`}>
+            <div className={s.wrapper}>
+                <div className={s.user}>
+                    <span className={s.userName}>{user.username}</span>
+                    <span className={s.regTime}>Дата регистрации: {dateJoined}</span>
+                </div>
+            </div>        
+        </Link>
 
-            <div className={s.results}>
-                <div>Тестов пройдено</div>
-                <div className={s.amount}>0</div>
-            </div>
-        </div>
     )
 }
 

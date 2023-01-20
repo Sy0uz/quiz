@@ -1,35 +1,38 @@
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { SplitButton } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
+import { useSelector } from 'react-redux';
+import { PostService } from '../API/PostService';
 
-const QuizResult = ({result, questions, title}) => {
+const QuizResult = ({result, quiz}) => {
 
-    const total = useMemo(() => {
-        let count = 0;
-        for (let i = 0; i < result.length; i++) {
-            if (Array.isArray(result[i])){
-                if (result[i].join(' ') === questions[i].correct.join(' '))
-                    count++;
-                continue;
-            }
-            if (result[i] === questions[i])
-                count++;
-        }
+    const {user} = useSelector(state => state.main)
 
-        return count;
-    }, [questions, result])
+    const sendResults = async () => {
+        const results = new FormData();
+        if (user)
+            results.append('user_id', user.id)
+        results.append('quiz_id', quiz.id)
+        results.append('quiz_result', JSON.stringify(result))
+
+        const response = await PostService.sendResults(results);
+    }
+
+    useEffect(() => {
+        sendResults();
+    }, [])
 
     return (
         <div>
-            <h2>{title}</h2>
+            <h2>{quiz.title}</h2>
             <div>
                 <SplitButton
                     id='result'
                     variant='secondary'
-                    title={`Ваш результат: ${total}`}
+                    title={`Ваш результат:`}
                     align='end'
                 >
-                    {questions.map(item => <DropdownItem key={item.id}>{item.title}</DropdownItem>)}
+                    {quiz.questions.map(item => <DropdownItem key={item.id}>{item.title}</DropdownItem>)}
                 </SplitButton>
             </div>
         </div>

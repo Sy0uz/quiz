@@ -17,27 +17,27 @@ export class PostService {
     }
 
     static async getUser (id) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/auth/users/${id}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/userinfo/${id}/`);
         return response.data;
     }
 
     static async getUserList () {
         const response = await axios.get(`http://127.0.0.1:8000/api/auth/users/`)
-        return response.data;
+        return response.data.results;
     }
 
     static async checkUserAuth () {
         let user = {};
         let auth = false;
 
-        const response = await axios.get('http://127.0.0.1:8000/api/auth/users/', {
+        const response = await axios.get('http://127.0.0.1:8000/api/auth/users/me/', {
             headers: {
                 Authorization: 'Token ' + localStorage.getItem('token'),
             }
         })
 
         if (!Object.keys(response.data).includes('details')) {
-            user = {...response.data.results[0], is_authenticated: true};
+            user = {...response.data};
             auth = true;
         }
 
@@ -53,9 +53,28 @@ export class PostService {
         return response.data;
     }
 
+    static async sendResults (info) {
+        const response = await axios.post('http://127.0.0.1:8000/api/quizresult/', info, {
+            headers: {
+                Authorization: 'Token ' + localStorage.getItem('token'),
+            }
+        })
+        return response;
+    }
+
     static async registerUser (formData) {
         const response = await axios.post('http://127.0.0.1:8000/api/auth/users/', formData)
         return response.data;
+    }
+
+    static async changeUserData (formData, id) {
+        const response = await axios.patch(`http://127.0.0.1:8000/api/auth/users/${id}/`, formData, {
+            headers: {
+                Authorization: 'Token ' + localStorage.getItem('token'),
+            }
+        })
+
+        return response;
     }
 
     static async loginUser (formData) {
@@ -65,11 +84,12 @@ export class PostService {
     }
 
     static async logoutUser () {
-        const response = await axios.post('http://127.0.0.1:8000/api/auth/token/logout/', {
+        const response = await axios.post('http://127.0.0.1:8000/api/auth/token/logout/', {}, {
             headers: {
                 Authorization: 'Token ' + localStorage.getItem('token'),
             }
         })
+
         localStorage.removeItem('token')
         return response.data
     }

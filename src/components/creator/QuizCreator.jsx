@@ -15,7 +15,8 @@ const QuizCreator = () => {
     const createTest = async () => {
         const test = new FormData()
         test.append('title', title)
-        test.append('image_url', image)
+        if (image)
+            test.append('quiz_img_url', image)
         test.append('questions', JSON.stringify(questions))
 
         await PostService.addPost(test);
@@ -63,7 +64,7 @@ const QuizCreator = () => {
                 {questions.map(item => <CreateQ unsaveQ={unsaveQ} saveQ={saveQ} removeQ={removeQ} id={item.id} key={item.id}/>)}
                 <div className='d-flex justify-content-between mt-2'>
                     <Button variant='outline-dark' onClick={addQ}>Добавить вопрос</Button>
-                    <Button variant='dark' disabled={!questions.length} onClick={createTest}>Создать тест</Button>
+                    <Button variant='dark' disabled={!questions.length} onClick={() => createTest()}>Создать тест</Button>
                 </div>
                 
             </Form>

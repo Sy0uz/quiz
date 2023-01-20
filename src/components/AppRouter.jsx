@@ -1,11 +1,11 @@
-import React, {useContext} from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { AppContext } from '../Context/AppContext'
 import { routerPublic, routerPrivate } from '../router/router'
 
 const AppRouter = () => {
 
-    const {isAuth} = useContext(AppContext);
+    const {isAuth} = useSelector(state => state.main)
 
     return (
             isAuth

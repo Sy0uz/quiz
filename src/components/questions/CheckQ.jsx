@@ -7,8 +7,8 @@ const CheckQ = ({question, nextQuestion}) => {
     const [value, setValue] = useState(question.variants.map(item => false));
 
     const answer = () => {
-        let temp = value.map((item, idx) => item ? idx+1 : item).filter(item => typeof(item) === 'number');
-        nextQuestion(temp, question.correct);
+        let temp = value.map((item, idx) => item ? (idx+1).toString() : item).filter(item => item);
+        nextQuestion(temp);
     }
 
     const changeValue = (checked, idx) => {

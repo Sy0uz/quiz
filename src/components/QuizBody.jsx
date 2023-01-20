@@ -11,7 +11,7 @@ const QuizBody = ({quiz}) => {
     const [isFinal, setIsFinal] = useState(false);
     const [result, setResult] = useState([]);
 
-    const nextQuestion = (value, correct) => {
+    const nextQuestion = (value) => {
         setQIndex(qIndex + 1);
         setResult([...result, value])   
     }
@@ -43,7 +43,7 @@ const QuizBody = ({quiz}) => {
             {
                 !isFinal
                     ? questions[qIndex]
-                    : <QuizResult result={result} questions={quiz.questions} title={quiz.title}/>
+                    : <QuizResult quiz={quiz} result={result}/>
             }
             <ProgressBar className='mt-1' style={{fontWeight:'bold'}} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length}/>
         </div>

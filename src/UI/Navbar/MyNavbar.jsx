@@ -1,15 +1,17 @@
-import React, {useContext, useState} from 'react'
+import React, {useState} from 'react'
 import { Container, Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import s from './MyNavbar.module.css'
-import { AppContext } from '../../Context/AppContext'
 import { useNavigate } from 'react-router-dom'
 import Authorization from '../../components/authorization/Authorization'
 import { PostService } from '../../API/PostService'
+import { useDispatch, useSelector } from 'react-redux'
+import { ExitAC } from '../../Redux/reducers/mainReducer'
 
 const MyNavbar = () => {
 
-    const {isAuth, setIsAuth} = useContext(AppContext);
+    const dispatch = useDispatch();
+    const {user, isAuth} = useSelector(state => state.main)
 
     const [modalShow, setModalShow] = useState(false);
     const [authType, setAuthType] = useState('');
@@ -28,7 +30,7 @@ const MyNavbar = () => {
 
     const exitHandler = async () => {
         await PostService.logoutUser();
-        setIsAuth(false);
+        dispatch(ExitAC());
     }
 
 
@@ -53,6 +55,7 @@ const MyNavbar = () => {
                         </div>
                     :
                         <div>
+                            <Link to={'/profile'}><Button variant='light' className={s.btn}>{user.username}</Button></Link>
                             <Button variant='outline-light' className={s.btn} onClick={exitHandler}>Выйти</Button>
                         </div>
                 }

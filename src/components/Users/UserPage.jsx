@@ -10,11 +10,11 @@ const UserPage = () => {
 
     const params = useParams();
 
-    const [userProfile, setUserProfile] = useState(null);
+    const [user, setUser] = useState(null);
     
     const fetchUser = async (id) => {
         const response = await PostService.getUser(id);
-        setUserProfile(response.data);
+        setUser(response);
     }
 
     const [fetch, isLoading] = useFetching(fetchUser);
@@ -30,13 +30,13 @@ const UserPage = () => {
                 <Spinner animation='border' />
             </Wrapper>
             :
-                !userProfile
+                !user
                 ?
                 <Wrapper>
                     <h2>Пользователя с id {params.id} не существует!</h2>
                 </Wrapper>
                 :
-                <UserProfile user={userProfile}/>
+                <UserProfile user={user}/>
     )
 }
 

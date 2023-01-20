@@ -7,7 +7,7 @@ const InputQ = ({question, nextQuestion}) => {
     const [value, setValue] = useState('');
 
     const answer = () => {
-        nextQuestion(value, question.correct);
+        nextQuestion(value);
     }
 
     const changeValue = (e) => {

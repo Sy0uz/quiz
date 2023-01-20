@@ -7,10 +7,6 @@
     border-left: 3px solid rgb(33,37,41);
 }
 
-.wrapper + .wrapper {
-    margin-top: 5px;
-}
-
 .userName {
     font-size: 1.2rem;
     font-weight: bold;
@@ -41,4 +37,18 @@
     font-weight: bold;
     font-size: 1.2rem;
     margin-top: -5px;
+}
+
+.link + .link {
+    margin-top: 5px;
+}
+
+.link {
+    text-decoration: none;
+    color: unset;
+    display: block;
+}
+
+.link:hover {
+    color:unset;
 }

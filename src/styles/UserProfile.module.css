@@ -23,3 +23,33 @@
 .userInfo {
     margin-left: 20px;
 }
+
+.gridQuizes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 16px;
+}
+
+.changePhoto {
+    width: 30px;
+    height: 30px;
+}
+
+.changePhotoBtn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 4px 4px;
+    background-color: unset;
+    border: none;
+}
+
+.changePhotoBtn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.quizesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

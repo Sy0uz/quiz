@@ -1,48 +1,31 @@
-import { useEffect, useState } from 'react';
-import { PostService } from './API/PostService';
+import { useEffect } from 'react';
 import AppRouter from './components/AppRouter';
 import Wrapper from './components/Wrapper';
-import { AppContext } from './Context/AppContext';
-import useFetching from './hooks/useFetching';
 import './styles/App.css'
 import MyNavbar from './UI/Navbar/MyNavbar';
 import { Spinner } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { CheckUserAuth } from './Redux/asyncActions/checkAuthAction';
 
 function App() {
-    const [user, setUser] = useState(null);
-    const [isAuth, setIsAuth] = useState(false);
-
-    const checkUserByToken = async () => {
-        const [user, auth] = await PostService.checkUserAuth();
-        setUser(user);
-        setIsAuth(auth);
-    }
-
-    const [fetchUser, isLoadUser] = useFetching(checkUserByToken);
+    const {isLoading, error} = useSelector(state => state.main)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            fetchUser();
-        }
+        dispatch(CheckUserAuth())
     }, [])
 
-    if (isLoadUser) {
+    if (isLoading) {
         return <Wrapper className='d-flex justify-content-center'>
             <Spinner animation='border' />
         </Wrapper>
     }
 
     return (
-        <AppContext.Provider value={{
-            isAuth,
-            setIsAuth,
-            user,
-        }}>
-            <div className="App">
-                <MyNavbar />
-                <AppRouter />
-            </div>
-        </AppContext.Provider>
+        <div className="App">
+            <MyNavbar />
+            <AppRouter />
+        </div>
     );
 }
 

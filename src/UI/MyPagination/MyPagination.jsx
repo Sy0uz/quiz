@@ -10,7 +10,7 @@ const MyPagination = ({pages, limit, offset, setOffset}) => {
     }
 
     return (
-        <Pagination className='d-flex justify-content-center mb-0'>
+        <Pagination className='d-flex justify-content-center mb-2'>
             {pages.map(page =>
                 <Pagination.Item className='pagination' active={currentOffset(page) === offset} onClick={() => nextPage(page)} key={page}>{page}</Pagination.Item>
             )}

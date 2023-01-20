@@ -1,56 +1,61 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Alert, Button, Spinner } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { PostService } from '../API/PostService';
-import { AppContext } from '../Context/AppContext'
-import useFetching from '../hooks/useFetching';
 import usePagination from '../hooks/usePagination';
+import { FetchQuizes } from '../Redux/asyncActions/quizesAction';
+import { ChangeOffsetAC } from '../Redux/reducers/quizesReducer';
 import MyPagination from '../UI/MyPagination/MyPagination';
 import QuizHeader from './QuizHeader';
 import Wrapper from './Wrapper';
 
 const Quizes = () => {
-    const limit = 5;
+
     const redirect = useNavigate();
+    const dispatch = useDispatch();
+    const {isLoading, quizList, offset, totalPages, error, limit} = useSelector(state => state.quizes);
+    const {isAuth} = useSelector(state => state.main)
 
-    const {isAuth} = useContext(AppContext);
-
-    const [store, setStore] = useState(null);
-
-    const [offset, setOffset] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    let pagesArray = usePagination(totalPages);
-
-    const fetchQuizes = async (limit, offset) => {
-        const response = await PostService.getQuizList(limit, offset);
-        setStore(response.results)
-        setTotalPages(Math.ceil(response.count / limit))
-    }
-
-    const [fetch, isLoading] = useFetching(fetchQuizes);
-
+    const pagesArray = usePagination(totalPages);
+    
     useEffect(() => {
-        fetch(limit, offset);
+        dispatch(FetchQuizes(limit, offset))
     }, [offset])
 
-    return (
-        isLoading
-            ? <Wrapper className='d-flex justify-content-center'>
+    const setOffset = (value) => {
+        dispatch(ChangeOffsetAC(value))
+    }
+
+    if (isLoading)
+        return <Wrapper className='d-flex justify-content-center'>
                 <Spinner animation='border' />
             </Wrapper>
-            : <Wrapper>
-                {isAuth
-                    ? <Button variant='dark' onClick={() => redirect('/creator')}>Создать свой тест</Button>
-                    : <></>
+
+    if (error)
+        return <Wrapper className='d-flex justify-content-center'>
+            <h2>{error}</h2>
+        </Wrapper>
+
+    return (
+        <>
+            <Wrapper>
+                {
+                    isAuth
+                        ? <Button variant='dark' onClick={() => redirect('/creator')}>Создать свой тест</Button>
+                        : <></>
                 }
-                {store
-                    ? <div>
-                        {store.map(quiz => <QuizHeader key={quiz.id} quiz={quiz} />)}
-                        <MyPagination pages={pagesArray} limit={limit} offset={offset} setOffset={setOffset}/>
-                    </div>
-                    : <Alert className='mt-2 mb-0' variant='dark'>Список тестов пуст!</Alert>
+                {
+                    quizList
+                        ? quizList.map(quiz => <QuizHeader key={quiz.id} quiz={quiz} />)
+                        : <Alert className='mt-2 mb-0' variant='dark'>Список тестов пуст!</Alert>
                 }
             </Wrapper>
+            {
+                quizList
+                    ? <MyPagination pages={pagesArray} limit={limit} offset={offset} setOffset={setOffset} />
+                    : <></>
+            }
+        </>
     )
 }
 

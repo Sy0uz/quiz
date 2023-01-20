@@ -11,7 +11,7 @@ const RadioQ = ({question, nextQuestion}) => {
     }
 
     const answer = () => {
-        nextQuestion(value.toString(), question.correct);
+        nextQuestion(value.toString());
     }
 
     return (
