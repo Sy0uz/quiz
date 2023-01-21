@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap';
 import QuizBody from './QuizBody';
 import Wrapper from './Wrapper';
-import useFetching from '../hooks/useFetching';
-import { PostService } from '../API/PostService';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchQuiz } from '../Redux/asyncActions/currentQuizAction';
+import { ResetQuizAC } from '../Redux/reducers/currentQuizReducer';
 
 const Quiz = () => {
     const params = useParams();
-    const [localQuiz, setLocalQuiz] = useState(null);
-
-    const fetchData = async (id) => {
-        const response = await PostService.getQuiz(id);
-        setLocalQuiz(response);
-    }
-
-    const [fetch, isLoading, error] = useFetching(fetchData);
+    const dispatch = useDispatch();
+    const {isLoading, error, quiz} = useSelector(state => state.quiz)
 
     useEffect(() => {
-        fetch(params.id);
+        dispatch(FetchQuiz(params.id))
+        return () => {
+            dispatch(ResetQuizAC())
+        }
     }, [])
 
     return (
@@ -31,7 +29,7 @@ const Quiz = () => {
                     : 
                         !error
                             ?
-                            localQuiz && <QuizBody quiz={localQuiz} />
+                            quiz && <QuizBody quiz={quiz} />
                             :
                             <h1>Теста с id: {params.id} не существует!</h1>
                 }                

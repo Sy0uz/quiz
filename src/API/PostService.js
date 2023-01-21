@@ -16,6 +16,15 @@ export class PostService {
         return response.data;
     }
 
+    static async deleteQuiz (id) {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/quizdelete/${id}/`, {
+            headers: {
+                Authorization: 'Token ' + localStorage.getItem('token'),
+            }
+        })
+        return response.data;
+    }
+
     static async getUser (id) {
         const response = await axios.get(`http://127.0.0.1:8000/api/userinfo/${id}/`);
         return response.data;
@@ -59,7 +68,7 @@ export class PostService {
                 Authorization: 'Token ' + localStorage.getItem('token'),
             }
         })
-        return response;
+        return response.data;
     }
 
     static async registerUser (formData) {

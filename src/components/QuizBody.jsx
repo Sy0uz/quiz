@@ -4,19 +4,19 @@ import CheckQ from './questions/CheckQ';
 import InputQ from './questions/InputQ';
 import { ProgressBar } from 'react-bootstrap';
 import QuizResult from './QuizResult';
+import { useDispatch, useSelector } from 'react-redux';
+import { GiveResultsAC, NextQuestionAC } from '../Redux/reducers/currentQuizReducer';
 
 const QuizBody = ({quiz}) => {
-
-    const [qIndex, setQIndex] = useState(0);
-    const [isFinal, setIsFinal] = useState(false);
-    const [result, setResult] = useState([]);
+    
+    const {qIndex, isFinal, answers} = useSelector(state => state.quiz)
+    const dispatch = useDispatch();
 
     const nextQuestion = (value) => {
-        setQIndex(qIndex + 1);
-        setResult([...result, value])   
+        dispatch(NextQuestionAC(value))
     }
 
-    const makeQustionsArray = () => {
+    const makeQuestionsArray = () => {
         return quiz.questions.map(question => {
             switch (question.type) {
                 case 'radio':
@@ -31,11 +31,11 @@ const QuizBody = ({quiz}) => {
         });
     }
 
-    const questions = makeQustionsArray();
+    const questions = makeQuestionsArray();
 
     useEffect(() => {
         if (qIndex === questions.length)
-            setIsFinal(true);
+            dispatch(GiveResultsAC())
     }, [qIndex])
 
     return (
@@ -43,7 +43,7 @@ const QuizBody = ({quiz}) => {
             {
                 !isFinal
                     ? questions[qIndex]
-                    : <QuizResult quiz={quiz} result={result}/>
+                    : <QuizResult quiz={quiz} answers={answers}/>
             }
             <ProgressBar className='mt-1' style={{fontWeight:'bold'}} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length}/>
         </div>

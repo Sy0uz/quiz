@@ -18,6 +18,7 @@ const MyProfile = ({user}) => {
 
     const profile = userExtended.profile;
     const createdQuizes = userExtended.created_quizzes;
+
     const setVisible = (bool) => {
         dispatch(ChangeVisibilityAC(bool))
     }
@@ -81,7 +82,7 @@ const MyProfile = ({user}) => {
                     {
                         createdQuizes.length
                         ? <div className={s.gridQuizes}>
-                            {createdQuizes.map(quiz => <QuizHeader type="small" key={quiz.id} quiz={quiz} />)}
+                            {createdQuizes.map(quiz => <QuizHeader deletable={true} key={quiz.id} quiz={quiz} />)}
                         </div>
                         : <>
                             <Alert className='mt-2 mb-0' variant='dark'>Список созданных тестов пуст!</Alert>
