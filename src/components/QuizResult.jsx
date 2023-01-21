@@ -9,18 +9,20 @@ import { Spinner } from 'react-bootstrap';
 
 const QuizResult = ({answers, quiz}) => {
 
-    const {user} = useSelector(state => state.main)
-    const {isLoading, error, results} = useSelector(state => state.quizresult)
+    const {user, isAuth} = useSelector(state => state.main)
+    const {isLoading, results} = useSelector(state => state.quizresult)
     const dispatch = useDispatch();
 
     const sendAnswers = async () => {
         const userAnswers = new FormData();
 
-        userAnswers.append('user_id', user.id)
+
+        if (user)
+            userAnswers.append('user_id', user.id)
         userAnswers.append('quiz_id', quiz.id)
         userAnswers.append('quiz_result', JSON.stringify(answers))
 
-        dispatch(SendQuizAnswers(userAnswers))
+        dispatch(SendQuizAnswers(userAnswers, isAuth))
     }
 
     useEffect(() => {

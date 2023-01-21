@@ -17,7 +17,7 @@ export class PostService {
     }
 
     static async deleteQuiz (id) {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/quizdelete/${id}/`, {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/quiz/${id}/`, {
             headers: {
                 Authorization: 'Token ' + localStorage.getItem('token'),
             }
@@ -26,7 +26,7 @@ export class PostService {
     }
 
     static async getUser (id) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/userinfo/${id}/`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/auth/users/${id}/`);
         return response.data;
     }
 
@@ -62,13 +62,20 @@ export class PostService {
         return response.data;
     }
 
-    static async sendResults (info) {
-        const response = await axios.post('http://127.0.0.1:8000/api/quizresult/', info, {
-            headers: {
-                Authorization: 'Token ' + localStorage.getItem('token'),
-            }
-        })
-        return response.data;
+    static async sendResults (info, isAuth = false) {
+        if (isAuth) {
+            const response = await axios.post('http://127.0.0.1:8000/api/quizresult/', info, {
+                headers: {
+                    Authorization: 'Token ' + localStorage.getItem('token'),
+                }
+            })
+            return response.data;            
+        }
+        else {
+            const response = await axios.post('http://127.0.0.1:8000/api/quizresult/', info)
+            return response.data;   
+        }
+
     }
 
     static async registerUser (formData) {

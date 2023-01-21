@@ -6,7 +6,6 @@ export const FetchAuthProfile = (id) => {
         try {
             const response = await PostService.getUser(id)
             dispatch(FetchProfileSuccesAC(response))
-            console.log(response)
         } catch (error) {
             dispatch(FetchProfileErrorAC(error.message))
         }

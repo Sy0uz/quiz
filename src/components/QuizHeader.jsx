@@ -16,7 +16,7 @@ const QuizHeader = ({quiz, deletable}) => {
     const [show, setShow] = useState(false);
 
     const onApply = async () => {
-        const response = await PostService.deleteQuiz(quiz.id);
+        await PostService.deleteQuiz(quiz.id);
         setShow(false);
         dispatch(FetchAuthProfile(user.id))
     }

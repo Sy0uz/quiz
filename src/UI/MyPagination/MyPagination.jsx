@@ -9,6 +9,9 @@ const MyPagination = ({pages, limit, offset, setOffset}) => {
         setOffset(currentOffset(page))
     }
 
+    if (pages.length === 1)
+        return <></>
+
     return (
         <Pagination className='d-flex justify-content-center mb-2'>
             {pages.map(page =>

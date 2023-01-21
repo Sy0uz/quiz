@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import RadioQ from './questions/RadioQ';
 import CheckQ from './questions/CheckQ';
 import InputQ from './questions/InputQ';
@@ -6,6 +6,8 @@ import { ProgressBar } from 'react-bootstrap';
 import QuizResult from './QuizResult';
 import { useDispatch, useSelector } from 'react-redux';
 import { GiveResultsAC, NextQuestionAC } from '../Redux/reducers/currentQuizReducer';
+import QuizUsersResults from './QuizUsersResults';
+import { ClearResultsAC } from '../Redux/reducers/quizResultReducer';
 
 const QuizBody = ({quiz}) => {
     
@@ -36,16 +38,30 @@ const QuizBody = ({quiz}) => {
     useEffect(() => {
         if (qIndex === questions.length)
             dispatch(GiveResultsAC())
+        return () => {
+            dispatch(ClearResultsAC())
+        }
     }, [qIndex])
 
     return (
         <div className='quizBody'>
             {
                 !isFinal
-                    ? questions[qIndex]
-                    : <QuizResult quiz={quiz} answers={answers}/>
+                    ?
+                    <>
+                        {questions[qIndex]}
+                        <ProgressBar className='mt-1' style={{ fontWeight: 'bold' }} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length} />
+                    </>
+                    :
+                    <>
+                        <QuizResult quiz={quiz} answers={answers} />
+
+                        <ProgressBar className='mt-1' style={{ fontWeight: 'bold' }} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length} />
+
+                        <QuizUsersResults userResults={quiz.quiz_results}/>
+                    </>
             }
-            <ProgressBar className='mt-1' style={{fontWeight:'bold'}} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length}/>
+            
         </div>
     )
 }

@@ -29,6 +29,7 @@ const MyNavbar = () => {
     }
 
     const exitHandler = async () => {
+        history('/quiz')
         await PostService.logoutUser();
         dispatch(ExitAC());
     }

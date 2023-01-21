@@ -2,11 +2,15 @@ import React from 'react'
 import QuizHeader from '../QuizHeader';
 import Wrapper from '../Wrapper'
 import s from './../../styles/UserProfile.module.css'
+import { Alert } from 'react-bootstrap';
+import CompletedQuizes from '../CompletedQuizes';
 
 const UserProfile = ({user}) => {
 
     const profile = user.profile;
     const createdQuizes = user.created_quizzes;
+
+    console.log(user)
 
     return (
         <>
@@ -22,13 +26,24 @@ const UserProfile = ({user}) => {
                     </div>
                 </div>
             </Wrapper>
-
+            
             <Wrapper>
-                <h3 className='mt-2'>Созданные тесты</h3>
-                <div className={s.gridQuizes}>
-                    {createdQuizes.map(quiz => <QuizHeader type="small" key={quiz.id} quiz={quiz} />)}
-                </div>
+                <h3>Созданные тесты</h3>
+                {
+                    createdQuizes.length
+                        ?
+                        <div className={s.gridQuizes}>
+                            {createdQuizes.map(quiz => <QuizHeader type="small" key={quiz.id} quiz={quiz} />)}
+                        </div>
+                        :
+                        <>
+                            <Alert className='mt-3 mb-0' variant='dark'>Список созданных тестов пуст!</Alert>
+                        </>
+                }
             </Wrapper>
+
+            <CompletedQuizes completed={user.completed_quizzes}/>
+            
         </>
     )
 }
