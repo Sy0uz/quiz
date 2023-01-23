@@ -6,7 +6,7 @@ import { stringPercent } from '../utils/stringPercent';
 const CompletedQuizContainer = ({id, result, time}) => {
 
     const [quiz, setQuiz] = useState(null);
-    
+
     const fetchQuiz = async () => {
         const response = await PostService.getQuiz(id);
         setQuiz(response);

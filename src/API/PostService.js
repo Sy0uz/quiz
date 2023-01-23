@@ -39,9 +39,14 @@ export class PostService {
         let user = {};
         let auth = false;
 
+        const token = localStorage.getItem('token');
+
+        if (!token)
+            return [user, auth]
+
         const response = await axios.get('http://127.0.0.1:8000/api/auth/users/me/', {
             headers: {
-                Authorization: 'Token ' + localStorage.getItem('token'),
+                Authorization: 'Token ' + token,
             }
         })
 

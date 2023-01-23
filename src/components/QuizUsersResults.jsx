@@ -21,7 +21,7 @@ const QuizUsersResults = ({userResults}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {userResults.map(item => <UserResult result={item} />)}
+                    {userResults.map((item, idx) => <UserResult key={idx} result={item} />)}
                 </tbody>
             </Table>
 

@@ -7,8 +7,9 @@ import { PostService } from '../API/PostService'
 import QuizHeader from './QuizHeader'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { ChangeFileAC, ChangeVisibilityAC } from '../Redux/reducers/profileReducer'
+import { ChangeFileAC, FileChangeVisibilityAC } from '../Redux/reducers/profileReducer'
 import { FetchAuthProfile } from '../Redux/asyncActions/myProfileAction'
+import CompletedQuizes from './CompletedQuizes'
 
 const MyProfile = ({user}) => {
 
@@ -20,7 +21,7 @@ const MyProfile = ({user}) => {
     const createdQuizes = userExtended.created_quizzes;
 
     const setVisible = (bool) => {
-        dispatch(ChangeVisibilityAC(bool))
+        dispatch(FileChangeVisibilityAC(bool))
     }
 
     const fileOnChange = (e) => {
@@ -32,8 +33,11 @@ const MyProfile = ({user}) => {
         formData.append('user_img_url', file);
 
         const response = await PostService.changeUserData(formData, user.id);
-        if (response.status === 200)
+        if (response.status === 200) {
             dispatch(FetchAuthProfile(user.id))
+            dispatch(FileChangeVisibilityAC(false))
+        }
+            
     }
 
     return (
@@ -56,7 +60,7 @@ const MyProfile = ({user}) => {
                                     </Tooltip>
                                 }
                             >
-                                <button className={s.changePhotoBtn} onClick={() => dispatch(ChangeVisibilityAC(true))}>
+                                <button className={s.changePhotoBtn} onClick={() => dispatch(FileChangeVisibilityAC(true))}>
                                     <img className={s.changePhoto} src='https://cdn.icon-icons.com/icons2/753/PNG/512/photo-camera-1_icon-icons.com_63898.png' alt='changePhoto'></img>
                                 </button>
                             </OverlayTrigger>
@@ -89,6 +93,8 @@ const MyProfile = ({user}) => {
                         </>
                     }
             </Wrapper>
+
+            <CompletedQuizes completed={userExtended.completed_quizzes}/>
 
             <MyModal title={'Изменить фотографию'} apply={'Изменить'} show={modalVisible} setShow={setVisible} onApply={onApply}>
                 <Form.Group>

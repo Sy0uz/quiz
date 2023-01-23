@@ -3,59 +3,79 @@ import { useNavigate } from 'react-router-dom'
 import { PostService } from '../../API/PostService';
 import MyModal from '../../UI/MyModal/MyModal';
 import { Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CheckUserAuth } from '../../Redux/asyncActions/checkAuthAction';
+import { RegisterUser } from '../../Redux/asyncActions/registrationUserAction';
+import { LoginUser } from '../../Redux/asyncActions/loginUserAction';
+import { ChangeRegistrationVisibilityAC, ClearRegistrationInputsAC, SetRegistrationEmailAC, SetRegistrationPasswordAC, SetRegistrationUsernameAC } from '../../Redux/reducers/registrationReducer';
+import { useEffect } from 'react';
 
-const Registration = ({show, setShow}) => {
+const Registration = () => {
 
     const history = useNavigate();
     const dispatch = useDispatch();
 
-    const [registration, setRegistration] = useState({
-        email:'',
-        username:'',
-        password:'',
-    })
+    const {isLoading, error, email, username, password, visible, succes, isDirty} = useSelector(state => state.registration);
 
     const onApply = async () => {
         const reg = new FormData();
-        reg.append('email', registration.email)
-        reg.append('username', registration.username)
-        reg.append('password', registration.password)
-        const response = await PostService.registerUser(reg);
-        if (Object.keys(response).includes('id')){
-            await PostService.loginUser(reg);
-            dispatch(CheckUserAuth());
+        reg.append('email', email)
+        reg.append('username', username)
+        reg.append('password', password)
+        dispatch(RegisterUser(reg));
+    }
+
+    const auth = async (formData) => {
+        await dispatch(LoginUser(formData))
+        dispatch(CheckUserAuth());
+    }
+
+    useEffect(() => {
+        if (succes) {
+            const reg = new FormData();
+            reg.append('username', username)
+            reg.append('password', password)
+
+            auth(reg);
+
+            dispatch(ChangeRegistrationVisibilityAC(false));
+            dispatch(ClearRegistrationInputsAC());
+            history('/')
         }
-        setShow(false);
-        history('/')
+    }, [succes])
+
+    const emailHandler = (e) => {
+        dispatch(SetRegistrationEmailAC(e.target.value))
+    }
+
+    const usernameHandler = (e) => {
+        dispatch(SetRegistrationUsernameAC(e.target.value))
+    }
+
+    const passwordHandler = (e) => {
+        dispatch(SetRegistrationPasswordAC(e.target.value))
     }
 
     const hideModal = () => {
-        setRegistration({
-            email:'',
-            username:'',
-            password:'',
-        })
-        setShow();
+        dispatch(ChangeRegistrationVisibilityAC(false))
     }
 
     return (
-        <MyModal title='Регистрация' apply='Зарегистрироваться' show={show} setShow={hideModal} onApply={onApply}>
+        <MyModal title='Регистрация' apply='Зарегистрироваться' show={visible} setShow={hideModal} onApply={onApply} isLoading={isLoading}>
             <Form>
                 <Form.Group className="mb-2" controlId="formBasicEmail">
                     <Form.Label>Электронная почта</Form.Label>
-                    <Form.Control type="email" placeholder="Введите адрес эл. почты..." value={registration.email} onChange={e => setRegistration({ ...registration, email: e.target.value })} />
+                    <Form.Control type="email" placeholder="Введите адрес эл. почты..." value={email} onChange={emailHandler} />
                 </Form.Group>
 
                 <Form.Group className='mb-2' controlId='formBasicUsername'>
                     <Form.Label>Логин</Form.Label>
-                    <Form.Control type='text' placeholder='Введите логин...' value={registration.username} onChange={e => setRegistration({ ...registration, username: e.target.value})}/>
+                    <Form.Control type='text' placeholder='Введите логин...' value={username} onChange={usernameHandler}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Пароль</Form.Label>
-                    <Form.Control type="password" placeholder="Введите пароль..." value={registration.password} onChange={e => setRegistration({ ...registration, password: e.target.value })} />
+                    <Form.Control type="password" placeholder="Введите пароль..." value={password} onChange={passwordHandler} />
                 </Form.Group>
             </Form>
         </MyModal>

@@ -7,6 +7,8 @@ import Authorization from '../../components/authorization/Authorization'
 import { PostService } from '../../API/PostService'
 import { useDispatch, useSelector } from 'react-redux'
 import { ExitAC } from '../../Redux/reducers/mainReducer'
+import { ChangeLoginVisibilityAC } from '../../Redux/reducers/loginReducer'
+import { ChangeRegistrationVisibilityAC } from '../../Redux/reducers/registrationReducer'
 
 const MyNavbar = () => {
 
@@ -20,12 +22,12 @@ const MyNavbar = () => {
 
     const loginHandler = () => {
         setAuthType('login')
-        setModalShow(true);
+        dispatch(ChangeLoginVisibilityAC(true));
     }
 
     const registrationHandler = () => {
         setAuthType('registration')
-        setModalShow(true);
+        dispatch(ChangeRegistrationVisibilityAC(true));
     }
 
     const exitHandler = async () => {

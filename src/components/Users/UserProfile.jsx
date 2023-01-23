@@ -10,8 +10,6 @@ const UserProfile = ({user}) => {
     const profile = user.profile;
     const createdQuizes = user.created_quizzes;
 
-    console.log(user)
-
     return (
         <>
             <Wrapper>

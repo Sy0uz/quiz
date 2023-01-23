@@ -1,10 +1,9 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const MyModal = ({show, setShow, title, apply, onApply, children}) => {
+const MyModal = ({show, setShow, title, apply, onApply, children, isLoading = false}) => {
 
     const sumbit = () => {
-        setShow(false);
         onApply();
     }
 
@@ -18,8 +17,8 @@ const MyModal = ({show, setShow, title, apply, onApply, children}) => {
                 <Button variant="secondary" onClick={() => setShow(false)}>
                     Закрыть
                 </Button>
-                <Button variant="primary" onClick={sumbit}>
-                    {apply}
+                <Button variant="primary" onClick={sumbit} disabled={isLoading}>
+                    {isLoading ? 'Загрузка...' : apply}
                 </Button>
             </Modal.Footer>
         </Modal>
