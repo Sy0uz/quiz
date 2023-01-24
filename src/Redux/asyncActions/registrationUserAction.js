@@ -8,7 +8,7 @@ export const RegisterUser = (formData) => {
             const response = await PostService.registerUser(formData);
             dispatch(RegistrationSuccesAC());
         } catch (error) {
-            dispatch(RegistrationErrorAC('dd'))
+            dispatch(RegistrationErrorAC(error.response.data))
         }
     }
 }

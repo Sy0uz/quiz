@@ -17,7 +17,7 @@ const SET_REGISTRATION_USERNAME = 'SET_REGISTRATION_USERNAME';
 const SET_REGISTRATION_PASSWORD = 'SET_REGISTRATION_PASSWORD';
 const CHANGE_REGISTRATION_VISIBILITY = 'CHANGE_REGISTRATION_VISIBILITY';
 const CHANGE_DIRTY_REGISTRATION_INPUT = 'CHANGE_DIRTY_REGISTRATION_INPUT';
-const CLEAR_REGISTRATION_INPUTS = 'CLEAR_REGISTRATION_INPUTS';
+const CLEAR_REGISTRATION = 'CLEAR_REGISTRATION';
 
 export const registrationReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -37,8 +37,8 @@ export const registrationReducer = (state = initialState, action) => {
             return {...state, visible: action.payload}
         case CHANGE_DIRTY_REGISTRATION_INPUT:
             return {...state, isDirty: action.payload}
-        case CLEAR_REGISTRATION_INPUTS:
-            return {...state, email:'', username:'', password:''};
+        case CLEAR_REGISTRATION:
+            return {...state, email:'', username:'', password:'', error:null, succes: false, isDirty: true}
         default:
             return state;
     }
@@ -52,4 +52,4 @@ export const SetRegistrationUsernameAC = (payload) => ({type: SET_REGISTRATION_U
 export const SetRegistrationPasswordAC = (payload) => ({type: SET_REGISTRATION_PASSWORD, payload})
 export const ChangeRegistrationVisibilityAC = (payload) => ({type: CHANGE_REGISTRATION_VISIBILITY, payload})
 export const ChangeDirtyRegistrationInputAC = (payload) => ({type: CHANGE_DIRTY_REGISTRATION_INPUT, payload})
-export const ClearRegistrationInputsAC = () => ({type:CLEAR_REGISTRATION_INPUTS});
+export const ClearRegistrationAC = () => ({type:CLEAR_REGISTRATION});

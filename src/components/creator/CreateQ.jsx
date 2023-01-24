@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useEffect } from 'react'
 import { Button, CloseButton, Form } from 'react-bootstrap'
 import s from './../../styles/CreateQ.module.css'
 import VariantsQ from './VariantsQ'
@@ -9,11 +10,12 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
     const qTypes = ['Выбрать ответ', 'Выбрать несколько ответов', 'Ввести ответ']
 
     const [disabled, setDisabled] = useState(false);
+    const [isInvalid, setIsInvalid] = useState(true);
 
     const [qName, setQName] = useState('');
     const [qType, setQType] = useState('');
     const [qCorrect, setQCorrect] = useState('');
-    const [qVariants, setQVariants] = useState('');
+    const [qVariants, setQVariants] = useState([]);
 
     const changeValue = (e) => {
         if (e.target.value === '0')
@@ -23,6 +25,29 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
         else 
             setQType('input')
     }
+
+    useEffect(() => {
+        if (qType) {
+            if (qType === 'input') {
+                if (qName && qCorrect)
+                    setIsInvalid(false)
+                else
+                    setIsInvalid(true)
+            }
+            else if (qType === 'radio') {
+                if (qName && qCorrect && qVariants.length)
+                    setIsInvalid(false)
+                else
+                    setIsInvalid(true)
+            }
+            else {
+                if (qName && qCorrect.length && qVariants.length)
+                    setIsInvalid(false)
+                else
+                    setIsInvalid(true)
+            }
+        }
+    }, [qName, qType, qCorrect, qVariants])
 
     const saveNewQ = () => {
         const question = {
@@ -70,7 +95,7 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
             <CloseButton onClick={() => { removeQ(id) }} className={s.close} />
 
             <div className={s.save}>
-                <Button className={s.control} size='sm' variant='dark' onClick={saveNewQ}>Сохранить</Button>
+                <Button disabled={isInvalid} className={s.control} size='sm' variant='dark' onClick={saveNewQ}>Сохранить</Button>
             </div>
 
             {

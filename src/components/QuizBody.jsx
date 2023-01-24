@@ -14,6 +14,8 @@ const QuizBody = ({quiz}) => {
     const {qIndex, isFinal, answers} = useSelector(state => state.quiz)
     const dispatch = useDispatch();
 
+    console.log(quiz)
+
     const nextQuestion = (value) => {
         dispatch(NextQuestionAC(value))
     }

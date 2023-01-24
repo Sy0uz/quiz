@@ -9,7 +9,7 @@ const RadioVariant = ({id, setQCorrect, setQVariants}) => {
     const [checked, setChecked] = useState('');
 
     useEffect(() => {
-        variants.forEach((item, idx) => item.index === checked ? setQCorrect(idx) : null);
+        variants.forEach((item, idx) => item.index === checked ? setQCorrect((idx + 1).toString()) : null);
     }, [checked, variants])
 
     const addVariant = () => {

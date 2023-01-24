@@ -20,7 +20,7 @@ const CheckVariant = ({id, setQCorrect, setQVariants}) => {
         setQCorrect(correct.map(item => {
             for (let i = 0; i < variants.length; i++) {
                 if (item === variants[i].index){
-                    return i;
+                    return (i + 1).toString();
                 }
             }
         }).sort((a,b) => a - b).filter(item => item !== undefined))

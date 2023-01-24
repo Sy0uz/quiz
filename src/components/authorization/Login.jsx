@@ -5,7 +5,7 @@ import { Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { CheckUserAuth } from '../../Redux/asyncActions/checkAuthAction'
 import { LoginUser } from '../../Redux/asyncActions/loginUserAction'
-import { ChangeLoginVisibilityAC, SetLoginUsernameAC, SetLoginPasswordAC, ChangeDirtyInputAC } from '../../Redux/reducers/loginReducer'
+import { ChangeLoginVisibilityAC, SetLoginUsernameAC, SetLoginPasswordAC, ChangeDirtyInputAC, ClearLoginStateAC } from '../../Redux/reducers/loginReducer'
 
 const Login = () => {
 
@@ -23,7 +23,7 @@ const Login = () => {
     useEffect(() => {
         if (succes) {
             dispatch(CheckUserAuth())
-            dispatch(ChangeLoginVisibilityAC(false));
+            hideModal(false)
             history('/')
         }
     }, [succes])
@@ -38,6 +38,7 @@ const Login = () => {
 
     const hideModal = (value) => {
         dispatch(ChangeLoginVisibilityAC(value));
+        dispatch(ClearLoginStateAC())
     }
 
     const onFocus = () => {

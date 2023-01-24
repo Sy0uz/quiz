@@ -15,6 +15,7 @@ const SET_LOGIN_USERNAME = 'SET_LOGIN_USERNAME';
 const SET_LOGIN_PASSWORD = 'SET_LOGIN_PASSWORD';
 const CHANGE_LOGIN_VISIBILITY = 'CHANGE_LOGIN_VISIBILITY';
 const CHANGE_DIRTY_INPUT = 'CHANGE_DIRTY_INPUT';
+const CLEAR_LOGIN_STATE = 'CLEAR_LOGIN_STATE';
 
 export const loginReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -32,6 +33,8 @@ export const loginReducer = (state = initialState, action) => {
             return {...state, visible: action.payload}
         case CHANGE_DIRTY_INPUT:
             return {...state, isDirty: action.payload}
+        case CLEAR_LOGIN_STATE:
+            return {isLoading: false, error: null, username: '', password: '', visible: false, succes: false, isDirty: true}
         default:
             return state;
     }
@@ -44,3 +47,4 @@ export const SetLoginUsernameAC = (payload) => ({type: SET_LOGIN_USERNAME, paylo
 export const SetLoginPasswordAC = (payload) => ({type: SET_LOGIN_PASSWORD, payload})
 export const ChangeLoginVisibilityAC = (payload) => ({type: CHANGE_LOGIN_VISIBILITY, payload})
 export const ChangeDirtyInputAC = (payload) => ({type: CHANGE_DIRTY_INPUT, payload})
+export const ClearLoginStateAC = () => ({type:CLEAR_LOGIN_STATE})
