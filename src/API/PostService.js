@@ -114,4 +114,30 @@ export class PostService {
         localStorage.removeItem('token')
         return response.data
     }
+
+    static async followUser (id) {
+        const response = await axios.post("http://127.0.0.1:8000/api/follow/",{
+            user_is_being_followed: id,
+        },
+          {
+            headers: {
+              Authorization: "Token " + localStorage.getItem("token"),
+            },
+          }
+        );
+        return response.data;
+    }
+
+    static async unfollowUser (id) {
+        const response = await axios.delete("http://127.0.0.1:8000/api/follow/", 
+        {
+            headers: {
+                Authorization: "Token " + localStorage.getItem("token"),
+            },
+            data: {
+                user_is_being_followed: id,
+            }
+        })
+        return response.data;
+    }
 }

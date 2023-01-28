@@ -9,7 +9,7 @@ const CompletedQuizes = ({completed}) => {
         <Wrapper>
             <h3>История прохождения</h3>
             {
-                !completed?.length
+                !completed.length
                     ?
                     <Alert className='mt-3 mb-0' variant='dark'>Пользователь не прошёл ни одного теста!</Alert>
                     :

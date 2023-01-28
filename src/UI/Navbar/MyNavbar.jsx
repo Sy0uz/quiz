@@ -13,7 +13,7 @@ import { ChangeRegistrationVisibilityAC } from '../../Redux/reducers/registratio
 const MyNavbar = () => {
 
     const dispatch = useDispatch();
-    const {user, isAuth} = useSelector(state => state.main)
+    const {authUser, isAuth} = useSelector(state => state.main)
 
     const [modalShow, setModalShow] = useState(false);
     const [authType, setAuthType] = useState('');
@@ -58,7 +58,7 @@ const MyNavbar = () => {
                         </div>
                     :
                         <div>
-                            <Link to={'/profile'}><Button variant='light' className={s.btn}>{user.username}</Button></Link>
+                            <Link to={'/profile'}><Button variant='light' className={s.btn}>{authUser.username}</Button></Link>
                             <Button variant='outline-light' className={s.btn} onClick={exitHandler}>Выйти</Button>
                         </div>
                 }

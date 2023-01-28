@@ -14,8 +14,6 @@ const QuizBody = ({quiz}) => {
     const {qIndex, isFinal, answers} = useSelector(state => state.quiz)
     const dispatch = useDispatch();
 
-    console.log(quiz)
-
     const nextQuestion = (value) => {
         dispatch(NextQuestionAC(value))
     }
@@ -58,9 +56,11 @@ const QuizBody = ({quiz}) => {
                     <>
                         <QuizResult quiz={quiz} answers={answers} />
 
-                        <ProgressBar className='mt-1' style={{ fontWeight: 'bold' }} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length} />
+                        <div className='d-flex flex-column'>
+                            <ProgressBar className='mt-1' style={{ fontWeight: 'bold' }} label={`${qIndex}/${questions.length}`} striped now={qIndex} min={0} max={questions.length} />
+                            <QuizUsersResults userResults={quiz.quiz_results} />
+                        </div>
 
-                        <QuizUsersResults userResults={quiz.quiz_results}/>
                     </>
             }
             

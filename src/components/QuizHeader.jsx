@@ -11,14 +11,14 @@ const QuizHeader = ({quiz, deletable}) => {
 
     const redirect = useNavigate();
     const dispatch = useDispatch();
-    const {user} = useSelector(state => state.main)
+    const {authUser} = useSelector(state => state.main)
 
     const [show, setShow] = useState(false);
 
     const onApply = async () => {
         await PostService.deleteQuiz(quiz.id);
         setShow(false);
-        dispatch(FetchAuthProfile(user.id))
+        dispatch(FetchAuthProfile(authUser.id))
     }
 
     return (

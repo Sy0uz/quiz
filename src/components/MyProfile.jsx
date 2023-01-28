@@ -1,44 +1,24 @@
 import React from 'react'
 import Wrapper from './Wrapper'
 import s from './../styles/UserProfile.module.css'
-import { Form, OverlayTrigger, Tooltip, Alert, Button } from 'react-bootstrap'
+import { Form, OverlayTrigger, Tooltip, Spinner } from 'react-bootstrap'
 import MyModal from '../UI/MyModal/MyModal'
-import { PostService } from '../API/PostService'
-import QuizHeader from './QuizHeader'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { ChangeFileAC, FileChangeVisibilityAC } from '../Redux/reducers/profileReducer'
-import { FetchAuthProfile } from '../Redux/asyncActions/myProfileAction'
 import CompletedQuizes from './CompletedQuizes'
+import CreatedQuizes from './CreatedQuizes'
+import UserCommunity from './UserCommunity'
 
-const MyProfile = ({user}) => {
-
-    const redirect = useNavigate();
-    const dispatch = useDispatch();
-    const {userExtended, modalVisible, file} = useSelector(state => state.profile)
-
+const MyProfile = ({user, userExtended, modalVisible, isLoading, fileOnChange, setVisible, onApply}) => {
     const profile = userExtended.profile;
     const createdQuizes = userExtended.created_quizzes;
 
-    const setVisible = (bool) => {
-        dispatch(FileChangeVisibilityAC(bool))
+    const fileVisibilityHandler = () => {
+        setVisible(true);
     }
 
-    const fileOnChange = (e) => {
-        dispatch(ChangeFileAC(e.target.files[0]));
-    }
-
-    const onApply = async () => {
-        const formData = new FormData();
-        formData.append('user_img_url', file);
-
-        const response = await PostService.changeUserData(formData, user.id);
-        if (response.status === 200) {
-            dispatch(FetchAuthProfile(user.id))
-            dispatch(FileChangeVisibilityAC(false))
-        }
-            
-    }
+    if (isLoading)
+        return <Wrapper className='d-flex justify-content-center'>
+            <Spinner animation='border' />
+        </Wrapper>
 
     return (
         <>
@@ -60,7 +40,7 @@ const MyProfile = ({user}) => {
                                     </Tooltip>
                                 }
                             >
-                                <button className={s.changePhotoBtn} onClick={() => dispatch(FileChangeVisibilityAC(true))}>
+                                <button className={s.changePhotoBtn} onClick={fileVisibilityHandler}>
                                     <img className={s.changePhoto} src='https://cdn.icon-icons.com/icons2/753/PNG/512/photo-camera-1_icon-icons.com_63898.png' alt='changePhoto'></img>
                                 </button>
                             </OverlayTrigger>
@@ -78,21 +58,9 @@ const MyProfile = ({user}) => {
                 </div>
             </Wrapper>
 
-            <Wrapper>
-                <div className={s.quizesHeader}>
-                    <h3>Созданные тесты</h3>
-                    <Button variant='dark' onClick={() => redirect('/creator')}>Создать свой тест</Button>                    
-                </div>
-                    {
-                        createdQuizes.length
-                        ? <div className={s.gridQuizes}>
-                            {createdQuizes.map(quiz => <QuizHeader deletable={true} key={quiz.id} quiz={quiz} />)}
-                        </div>
-                        : <>
-                            <Alert className='mt-2 mb-0' variant='dark'>Список созданных тестов пуст!</Alert>
-                        </>
-                    }
-            </Wrapper>
+            <UserCommunity friends={userExtended.friends} followers={userExtended.followers} following={userExtended.following}/>
+
+            <CreatedQuizes createdQuizes={createdQuizes} isMyProfile={true}/>
 
             <CompletedQuizes completed={userExtended.completed_quizzes}/>
 

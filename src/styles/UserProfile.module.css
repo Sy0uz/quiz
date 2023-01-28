@@ -24,12 +24,6 @@
     margin-left: 20px;
 }
 
-.gridQuizes {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 16px;
-}
-
 .changePhoto {
     width: 30px;
     height: 30px;
@@ -48,8 +42,6 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.quizesHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.community {
+    font-size:0.8rem;
 }

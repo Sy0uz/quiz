@@ -1,0 +1,15 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: flex-start;
+    grid-column-gap: 9px;
+    padding: 0 !important;
+}
+
+.wrapper > div {
+    background-color: white;
+    border: 1px solid rgb(180, 180, 180);
+    margin: 9px 0;
+    padding: 18px;
+    min-height: 151px;
+}

@@ -2,7 +2,8 @@ const initialState = {
     isLoading: true,
     error: null,
     isAuth: false,
-    user: null,
+    authUser: null,
+    authUserExtended: null,
 }
 
 const CHECK_AUTH_SUCCES = 'CHECK_AUTH_SUCCES';
@@ -12,7 +13,7 @@ const EXIT = 'EXIT';
 export const mainReducer = (state = initialState, action) => {
     switch (action.type) {
         case CHECK_AUTH_SUCCES:
-            return {...state, isLoading: false, isAuth: action.payload.auth, user: action.payload.user}
+            return {...state, isLoading: false, isAuth: action.payload.auth, authUser: action.payload.user, authUserExtended: action.payload.userExtended}
         case CHECK_AUTH_ERROR:
             return {...state, isLoading: false, error: action.payload}
         case EXIT:
