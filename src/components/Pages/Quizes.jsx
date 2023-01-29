@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react'
-import { Alert, Button, Spinner } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import usePagination from '../hooks/usePagination';
-import { FetchQuizes } from '../Redux/asyncActions/quizesAction';
-import { ChangeOffsetAC } from '../Redux/reducers/quizesReducer';
-import MyPagination from '../UI/MyPagination/MyPagination';
-import QuizHeader from './QuizHeader';
-import Wrapper from './Wrapper';
+import usePagination from '../../hooks/usePagination';
+import { FetchQuizes } from '../../Redux/asyncActions/quizesAction';
+import { ChangeOffsetAC } from '../../Redux/reducers/quizesReducer';
+import MyAlert from '../../UI/Alert/MyAlert';
+import MyPagination from '../../UI/MyPagination/MyPagination';
+import MySpinner from '../../UI/Spinner/MySpinner';
+import QuizHeader from '../QuizHeader';
+import Wrapper from '../Wrapper';
 
 const Quizes = () => {
 
@@ -27,9 +29,7 @@ const Quizes = () => {
     }
 
     if (isLoading)
-        return <Wrapper className='d-flex justify-content-center'>
-                <Spinner animation='border' />
-            </Wrapper>
+        return <MySpinner/>
 
     if (error)
         return <Wrapper className='d-flex justify-content-center'>
@@ -47,7 +47,7 @@ const Quizes = () => {
                 {
                     quizList
                         ? quizList.map(quiz => <QuizHeader key={quiz.id} quiz={quiz} />)
-                        : <Alert className='mt-2 mb-0' variant='dark'>Список тестов пуст!</Alert>
+                        : <MyAlert>Список тестов пуст!</MyAlert>
                 }
             </Wrapper>
             {

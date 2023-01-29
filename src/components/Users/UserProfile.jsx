@@ -6,7 +6,7 @@ import CreatedQuizes from '../CreatedQuizes';
 import { Button } from 'react-bootstrap';
 import UserCommunity from '../UserCommunity';
 
-const UserProfile = ({user, followed, isFriends, isFollowLoading, changeFollow, isMyProfile = false}) => {
+const UserProfile = ({user, followed, isFriends, isFollowLoading, changeFollow, isMyProfile = false, isAuth}) => {
 
     const profile = user.profile;
     const createdQuizes = user.created_quizzes;
@@ -25,7 +25,7 @@ const UserProfile = ({user, followed, isFriends, isFollowLoading, changeFollow, 
                         </div>                        
                     </div>
 
-                    <Button variant='dark' disabled={isMyProfile || isFollowLoading} onClick={() => changeFollow(profile.id, followed, isFriends)}>{isFollowLoading ? 'Загрузка...' : isMyProfile ? 'Мой профиль' : isFriends ? 'Удалить из друзей' :  followed ? 'Перестать отслеживать' : 'Отслеживать'}</Button>
+                    {isAuth && <Button variant='dark' disabled={isMyProfile || isFollowLoading} onClick={() => changeFollow(profile.id, followed, isFriends)}>{isFollowLoading ? 'Загрузка...' : isMyProfile ? 'Мой профиль' : isFriends ? 'Удалить из друзей' :  followed ? 'Перестать отслеживать' : 'Отслеживать'}</Button>}
                 </div>
             </Wrapper>
 

@@ -8,6 +8,7 @@ import { loginReducer } from "./loginReducer";
 import { registrationReducer } from "./registrationReducer"
 import { quizCreatorReducer } from "./quizCreatorReducer";
 import { userReducer } from "./userReducer";
+import { userListReducer } from "./userListReducer";
 
 export const rootReducer = combineReducers({
     quizes: quizesReducer,
@@ -19,4 +20,5 @@ export const rootReducer = combineReducers({
     registration: registrationReducer,
     quizCreator: quizCreatorReducer,
     user: userReducer,
+    userList: userListReducer,
 })

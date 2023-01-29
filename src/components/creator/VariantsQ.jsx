@@ -20,9 +20,9 @@ const VariantsQ = ({type, id, setQCorrect, setQVariants}) => {
     }
 
     return (
-        <div>
+        <>
             {variant}
-        </div>
+        </>
     )
 }
 

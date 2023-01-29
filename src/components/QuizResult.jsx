@@ -4,8 +4,7 @@ import { SendQuizAnswers } from '../Redux/asyncActions/resultsAction';
 import QuizQuestionResult from './QuizQuestionResult';
 import s from './../styles/QuizResult.module.css'
 import { stringPercent } from '../utils/stringPercent';
-import Wrapper from './Wrapper';
-import { Spinner } from 'react-bootstrap';
+import MySpinner from '../UI/Spinner/MySpinner';
 
 const QuizResult = ({answers, quiz}) => {
 
@@ -15,7 +14,6 @@ const QuizResult = ({answers, quiz}) => {
 
     const sendAnswers = async () => {
         const userAnswers = new FormData();
-
 
         if (user)
             userAnswers.append('user_id', user.id)
@@ -30,11 +28,7 @@ const QuizResult = ({answers, quiz}) => {
     }, [])
 
     if (isLoading)
-    return (
-        <Wrapper className='d-flex justify-content-center'>
-            <Spinner animation='border' />
-        </Wrapper>
-    )
+        return <MySpinner/>
 
     return (
         <div>

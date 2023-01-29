@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import Wrapper from '../Wrapper';
-import { Spinner } from 'react-bootstrap';
-import UserProfile from './UserProfile';
+import UserProfile from '../Users/UserProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import { FetchUser } from '../../Redux/asyncActions/fetchUserAction';
-import { ChangeFollowAC, ChangeFriendsStatusAC, ClearUserPageAC, SetIsMyProfileAC, ChangeCommunityStatusAC } from '../../Redux/reducers/userReducer';
+import { ChangeFollowAC, ChangeFriendsStatusAC, ClearUserPageAC, SetIsMyProfileAC } from '../../Redux/reducers/userReducer';
 import { SetUserFollow } from '../../Redux/asyncActions/followUserAction';
 import { CheckUserAuth } from '../../Redux/asyncActions/checkAuthAction';
+import MySpinner from '../../UI/Spinner/MySpinner';
 
 const UserPage = () => {
 
     const params = useParams();
     const dispatch = useDispatch();
     const {user, isLoading, isFollowLoading, error, followed, isFriends, isMyProfile} = useSelector(state => state.user)
-    const {authUserExtended} = useSelector(state => state.main)
+    const {authUserExtended, isAuth} = useSelector(state => state.main)
 
     useEffect(() => {
         dispatch(FetchUser(params.id))
@@ -51,16 +51,14 @@ const UserPage = () => {
     }
 
     if (isLoading)
-        return <Wrapper className='d-flex justify-content-center'>
-            <Spinner animation='border' />
-        </Wrapper>
+        return <MySpinner/>
     
     if (error)
         return <Wrapper>
             <h2>Пользователя с id {params.id} не существует!</h2>
         </Wrapper>
 
-    return <UserProfile user={user} followed={followed} isFriends={isFriends} changeFollow={changeFollow} isFollowLoading={isFollowLoading} isMyProfile={isMyProfile}/>;
+    return <UserProfile user={user} followed={followed} isFriends={isFriends} changeFollow={changeFollow} isFollowLoading={isFollowLoading} isMyProfile={isMyProfile} isAuth={isAuth}/>;
 }
 
 export default UserPage

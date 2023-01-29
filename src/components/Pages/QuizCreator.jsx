@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom'
 import { CreateTest } from '../../Redux/asyncActions/creatTestAction'
 import { AddTestQuestionAC, ChangeTestValidAC, DeleteTestQuestionAC, ResetTestAC, SaveTestQuestionAC, SetTestImageAC, SetTestTitleAC, UnsaveTestQuestionAC } from '../../Redux/reducers/quizCreatorReducer'
 import Wrapper from '../Wrapper'
-import CreateQ from './CreateQ'
+import CreateQ from '../creator/CreateQ'
 
 const QuizCreator = () => {
 
     const finish = useNavigate();
     const dispatch = useDispatch();
 
-    const {title, questions, image, error, isLoading, created, isInvalid} = useSelector(state => state.quizCreator);
+    const {title, questions, image, isLoading, created, isInvalid} = useSelector(state => state.quizCreator);
 
     const createTest = async () => {
         const test = new FormData()
@@ -24,16 +24,7 @@ const QuizCreator = () => {
         dispatch(CreateTest(test));
     }
 
-    useEffect(() => {
-        if (created) {
-            finish('/quiz')
-            dispatch(ResetTestAC())
-        }
-            
-    }, [created])
-
-    useEffect(() => {
-    
+    const checkTestValidation = () => {
         if (!title) {
             dispatch(ChangeTestValidAC(true))
             return;
@@ -55,7 +46,17 @@ const QuizCreator = () => {
 
         if (!flag)
             dispatch(ChangeTestValidAC(false));
+    }
 
+    useEffect(() => {
+        if (created) {
+            finish('/quiz')
+            dispatch(ResetTestAC())
+        }
+    }, [created])
+
+    useEffect(() => {
+        checkTestValidation()
     }, [questions, title])
 
     const fileOnChange = (e) => {

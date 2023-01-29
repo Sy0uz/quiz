@@ -1,7 +1,8 @@
 import React from 'react'
 import UserItem from './Users/UserItem'
 import s from './../styles/UserCommunity.module.css'
-import { Alert, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
+import MyAlert from '../UI/Alert/MyAlert'
 
 const UserCommunity = ({friends, following, followers, isMyProfile = false}) => {
     return (
@@ -13,7 +14,7 @@ const UserCommunity = ({friends, following, followers, isMyProfile = false}) => 
                     ?
                     friends.map(item => <UserItem key={item.id} user={item} />)
                     :
-                    <Alert className='mt-2 mb-0' variant='dark'>Список друзей пуст!</Alert>
+                    <MyAlert>Список друзей пуст!</MyAlert>
                 }
             </div>
 
@@ -24,7 +25,7 @@ const UserCommunity = ({friends, following, followers, isMyProfile = false}) => 
                     ?
                     following.map(item => <UserItem key={item.id} user={item} />)
                     :
-                    <Alert className='mt-2 mb-0' variant='dark'>Список отслеживаемых пуст!</Alert>
+                    <MyAlert>Список отслеживаемых пуст!</MyAlert>
                 }
             </div>
 
@@ -35,7 +36,7 @@ const UserCommunity = ({friends, following, followers, isMyProfile = false}) => 
                     ?
                     followers.map(item => <UserItem key={item.id} user={item} />)
                     :
-                    <Alert className='mt-2 mb-0' variant='dark'>Список фолловеров пуст!</Alert>
+                    <MyAlert>Список фолловеров пуст!</MyAlert>
                 }
             </div>
         </Container>

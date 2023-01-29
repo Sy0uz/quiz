@@ -63,7 +63,6 @@ const QuizBody = ({quiz}) => {
 
                     </>
             }
-            
         </div>
     )
 }

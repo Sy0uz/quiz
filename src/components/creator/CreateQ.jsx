@@ -18,35 +18,21 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
     const [qVariants, setQVariants] = useState([]);
 
     const changeValue = (e) => {
-        if (e.target.value === '0')
-            setQType('radio')
-        else if (e.target.value === '1')
-            setQType('check')
-        else 
-            setQType('input')
+        switch (e.target.value) {
+            case '0':
+                setQType('radio')
+                break;
+            case '1':
+                setQType('check')
+                break;
+            default:
+                setQType('input')
+                break;
+        }
     }
 
     useEffect(() => {
-        if (qType) {
-            if (qType === 'input') {
-                if (qName && qCorrect)
-                    setIsInvalid(false)
-                else
-                    setIsInvalid(true)
-            }
-            else if (qType === 'radio') {
-                if (qName && qCorrect && qVariants.length)
-                    setIsInvalid(false)
-                else
-                    setIsInvalid(true)
-            }
-            else {
-                if (qName && qCorrect.length && qVariants.length)
-                    setIsInvalid(false)
-                else
-                    setIsInvalid(true)
-            }
-        }
+        checkQuestionValid();
     }, [qName, qType, qCorrect, qVariants])
 
     const saveNewQ = () => {
@@ -64,6 +50,31 @@ const CreateQ = ({id, removeQ, saveQ, unsaveQ}) => {
     const rejectSave = () => {
         unsaveQ(id);
         setDisabled(false);
+    }
+
+    const checkQuestionValid = () => {
+        if (qType) {
+            switch (qType) {
+                case 'input':
+                    if (qName && qCorrect)
+                        setIsInvalid(false)
+                    else
+                        setIsInvalid(true)
+                    break;
+                case 'radio':
+                    if (qName && qCorrect && qVariants.length)
+                        setIsInvalid(false)
+                    else
+                        setIsInvalid(true)
+                    break;
+                default:
+                    if (qName && qCorrect.length && qVariants.length)
+                        setIsInvalid(false)
+                    else
+                        setIsInvalid(true)
+                    break;
+            }
+        }
     }
 
     return (

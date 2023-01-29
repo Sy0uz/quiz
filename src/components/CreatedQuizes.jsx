@@ -1,8 +1,9 @@
 import s from './../styles/CreatedQuizes.module.css'
 import Wrapper from './Wrapper';
-import { Button, Alert } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import QuizHeader from './QuizHeader';
 import { useNavigate } from 'react-router-dom';
+import MyAlert from '../UI/Alert/MyAlert';
 
 const CreatedQuizes = ({createdQuizes, isMyProfile = false}) => {
 
@@ -23,9 +24,7 @@ const CreatedQuizes = ({createdQuizes, isMyProfile = false}) => {
                     ? <div className={s.gridQuizes}>
                         {createdQuizes.map(quiz => <QuizHeader deletable={isMyProfile} key={quiz.id} quiz={quiz} />)}
                     </div>
-                    : <>
-                        <Alert className='mt-2 mb-0' variant='dark'>Список созданных тестов пуст!</Alert>
-                    </>
+                    : <MyAlert>Список созданных тестов пуст!</MyAlert>
             }
         </Wrapper>
     )
